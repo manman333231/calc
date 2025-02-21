@@ -104,7 +104,9 @@ const addFunctionality = () => {
   }
   blocks[0].addEventListener("click", () => {
     num1 = "";
-    num2 = 0;
+    num2 = null;
+    operator1 = "";
+    display.textContent = 0;
   });
   for(let i = 0; i <= 2; i++){
     blocks[i + 16].addEventListener("click", () => {
@@ -115,7 +117,7 @@ const addFunctionality = () => {
       }
     });
   }
-  for(let i = 0; i <= 3; i++){
+  for(let i = 1; i <= 3; i++){
     blocks[i].addEventListener("click", () => {
       if (operator1 === "") {
         operator1 = symbols[10 -i]; 
