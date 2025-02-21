@@ -34,6 +34,43 @@ const operate = (num1, num2, operator) => {
   }
 }
 
+const opHandler = (num) => {
+  if (operator1 === "") {
+    num1 += num;
+    display.textContent = num1;
+  } else if (num2 === null) {
+    num2 = num;
+    display.textContent = num2;
+  } else if (operator2 === "") {
+    num2 += "";
+    num2 += num;
+    display.textContent = num2;
+  } else {
+    num1 = String(operate(Number(num1), Number(num2), operator1));
+    num2 = num;
+    operator1 = operator2;
+    operator2 = "";
+    display.textContent = num1;
+  }
+}
+
+const eqHandler = () => {
+  if(num2 === null){
+    display.textContent = num1;
+  } else if(operator2 === "") {
+    num1 = String(operate(Number(num1), Number(num2), operator1));
+    operator1 = "";
+    num2 = null;
+    display.textContent = num1;
+  } else {
+    num1 = String(operate(Number(num1), Number(num2), operator2));
+    num2 === null;
+    operator1 = operator2;
+    operator2 = "";
+    display.textContent = num1;
+  }
+}
+
 const createGrid = () => {
   for(let i = 0; i <= 4; i++){
     containers[i] = document.createElement("div");
@@ -80,52 +117,19 @@ const addFunctionality = () => {
   for(let i = 3; i >= 1; i--){
     for(let j = 0; j <= 2; j++){
       blocks[i*4 + j].addEventListener("click", () => {
-        if (operator1 === "" || operator1 == "=") {
-          num1 += "";
-          num1 += j + 1 + (3-i)*3;
-          display.textContent = num1;
-        } else if (num2 === null) {
-          num2 = j + 1 + (3-i)*3;
-          display.textContent = num2;
-        } else if (operator2 === "") {
-          num2 += "";
-          num2 += j + 1 + (3-i)*3;
-          display.textContent = num2;
-        } else {
-          num1 = operate(Number(num1), Number(num2), operator1)
-          operator1 = operator2;
-          operator2 = "";
-          display.textContent = num1;
-          num2 = null;
-          num1 += "";
-        }
+        opHandler(j + 1 + (3-i)*3);
       });
     }
   }
+
   blocks[0].addEventListener("click", () => {
     num1 = "";
     num2 = null;
     operator1 = "";
+    operator2 = "";
     display.textContent = 0;
   });
-  for(let i = 0; i <= 2; i++){
-    blocks[i + 16].addEventListener("click", () => {
-      if (operator1 === "") {
-        operator1 = symbols[i]; 
-      } else {
-        operator2 = symbols[i]; 
-      }
-    });
-  }
-  for(let i = 1; i <= 3; i++){
-    blocks[i].addEventListener("click", () => {
-      if (operator1 === "") {
-        operator1 = symbols[10 -i]; 
-      } else {
-        operator2 = symbols[10 -i]; 
-      }
-    });
-  }
+
   for(let i = 0; i <= 2; i++){
     blocks[15 - i*4].addEventListener("click", () => {
       if (operator1 === "") {
@@ -136,20 +140,7 @@ const addFunctionality = () => {
     });
   }
   blocks[19].addEventListener("click", () => {
-    if(num2 === null){
-      display.textContent = num1;
-    } else if(operator2 === "") {
-      num1 = operate(Number(num1), Number(num2), operator1);
-      operator1 = "";
-      num2 = null;
-      display.textContent = num1;
-    } else {
-      num1 = operate(Number(num1), Number(num2), operator2);
-      num2 === null;
-      operator1 = operator2;
-      operator2 = "";
-      display.textContent = num1;
-    }
+    eqHandler();
   });
 }
 
